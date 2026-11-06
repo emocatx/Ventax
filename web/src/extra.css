@@ -1,0 +1,26 @@
+/* Ajustes propios de la versión React (el resto viene de styles.css, igual que la clásica) */
+dialog[open] { animation: pop .2s ease-out; }
+dialog[open]::backdrop { animation: fade .2s ease-out; }
+@keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+dialog.pin { width: min(350px, 94vw); text-align: center; }
+.pinpad span { display: block; }
+.line { overflow: hidden; }
+button:disabled { opacity: .55; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { dialog[open], dialog[open]::backdrop { animation: none; } }
+
+/* Recorrido: la posición la anima motion */
+.tour-hole, .tour-card { transition: none; }
+/* Miniatura en la tabla del catálogo */
+.mini { width: 30px; height: 30px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; margin-right: 10px; vertical-align: middle; overflow: hidden; background: var(--tile); }
+.mini img { width: 100%; height: 100%; object-fit: cover; }
+.imgpick .thumb { width: 84px; aspect-ratio: 1; font-size: 20px; border-radius: 18px; flex: none; }
+/* Equipo como tarjetas */
+.team { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.member { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px 16px; border-radius: 22px; background: var(--panel); border: 0; }
+.member:hover { background: var(--tile); }
+/* Asistente escribiendo */
+.msg.typing { display: flex; gap: 5px; align-items: center; }
+.msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
+.msg.typing i:nth-child(2) { animation-delay: .15s; } .msg.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }

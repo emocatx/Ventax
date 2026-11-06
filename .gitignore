@@ -1,0 +1,26 @@
+# Dependencias y compilados
+node_modules/
+web/dist/
+
+# Datos del negocio: NUNCA al repositorio (ventas, PIN cifrados, respaldos)
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# Temporales
+.tmp/
+*.log
+
+# Repositorios de referencia clonados (tienen su propio git)
+caveman/
+impeccable/
+magicui/
+vaul/
+replica/
+
+# Skills de terceros instaladas localmente
+.agents/
+.claude/skills/
+.taste-skill/
+skills-lock.json

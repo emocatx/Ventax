@@ -1,0 +1,16 @@
+{
+  "name": "ventax",
+  "version": "0.2.0",
+  "description": "VENTAX - Punto de venta con turnos, empleados con PIN, IVA, alertas predictivas y reportes",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "demo": "node --disable-warning=ExperimentalWarning src/demo.js",
+    "seed": "node --disable-warning=ExperimentalWarning src/seed.js --reset",
+    "test": "node --disable-warning=ExperimentalWarning test/smoke.js",
+    "web:dev": "npm --prefix web run dev",
+    "web:build": "npm --prefix web run build"
+  }
+}
