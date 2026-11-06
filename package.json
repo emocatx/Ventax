@@ -8,6 +8,8 @@
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning src/server.js",
     "demo": "node --disable-warning=ExperimentalWarning src/demo.js",
+    "lan": "node --disable-warning=ExperimentalWarning src/server.js --lan",
+    "lan:demo": "node --disable-warning=ExperimentalWarning src/demo.js --lan",
     "seed": "node --disable-warning=ExperimentalWarning src/seed.js --reset",
     "test": "node --disable-warning=ExperimentalWarning test/smoke.js",
     "web:dev": "npm --prefix web run dev",

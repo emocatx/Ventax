@@ -575,5 +575,6 @@ export const server = http.createServer(async (req, res) => {
 });
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
-  server.listen(PORT, () => console.log(`VENTAX en http://localhost:${PORT}  (BD: ${process.env.POS_DB || 'data/pos.db'})`));
+  const { start } = await import('./listen.js');
+  start(server);
 }
