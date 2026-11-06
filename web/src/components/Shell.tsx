@@ -81,7 +81,7 @@ function Topbar() {
       <input className="scan" value={query} onChange={(e) => useSearch.getState().setQuery(e.target.value)} onKeyDown={onKey} placeholder="Escanear código o buscar producto…" autoComplete="off" aria-label="Escanear código o buscar producto" />
       <Clock />
       <span className={`chip ${shift ? 'ok' : ''}`}>{shift ? `Turno${shift.shift_name ? ' ' + shift.shift_name : ''}: ${shift.cashier}` : 'Sin turno'}</span>
-      <span className={`chip ${online ? 'ok' : ''}`}>{online ? 'Online' : 'Sin internet (opera local)'}</span>
+      <span className={`chip net ${online ? 'ok' : ''}`}>{online ? 'Online' : 'Sin internet (opera local)'}</span>
       <button className="ghost helpbtn" title="Ver el recorrido de ayuda" onClick={() => useUi.getState().set({ tourOpen: true })}>Guía</button>
       <button className="userbtn" title="Bloquear sesión" onClick={() => useStore.getState().lock()}>{user?.name} · {user ? ROLE[user.role] : ''}</button>
       <button className="ghost" onClick={() => void useStore.getState().logout()}>Salir</button>

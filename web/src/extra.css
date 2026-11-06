@@ -24,3 +24,42 @@ button:disabled { opacity: .55; cursor: not-allowed; }
 .msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
 .msg.typing i:nth-child(2) { animation-delay: .15s; } .msg.typing i:nth-child(3) { animation-delay: .3s; }
 @keyframes blink { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+
+/* ---- Celular y tablet ---- */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.cartbar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 30; display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 8px 10px 8px 8px; border-radius: 99px; border: 0;
+  background: var(--ink-btn); color: var(--ink-btn-text); font-size: 15px; font-weight: 600; box-shadow: 0 12px 30px rgba(10, 15, 40, .28); }
+.cartbar:hover { background: var(--ink-btn); }
+.cartbar b { margin-left: auto; font-size: 18px; padding-right: 8px; }
+.cb-count { min-width: 40px; height: 40px; border-radius: 99px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent); color: #2a2f3a; font-weight: 700; padding: 0 10px; }
+.sheet-ov { position: fixed; inset: 0; z-index: 50; background: rgba(15, 18, 30, .42); }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 51; max-height: 92dvh; display: flex; flex-direction: column; background: var(--panel); border-radius: 28px 28px 0 0; outline: none; padding-bottom: env(safe-area-inset-bottom); }
+.sheet-grip { width: 44px; height: 5px; border-radius: 99px; background: var(--muted); opacity: .5; margin: 10px auto 2px; flex: none; }
+.sheet .ticket-panel { position: static; overflow: auto; border-radius: 0; background: transparent; }
+.sheet .cart { max-height: 38dvh; }
+
+@media (max-width: 1000px) {
+  .pos { display: block; }
+  main { padding-bottom: 96px; }
+  .results { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+}
+@media (max-width: 720px) {
+  .top { flex-wrap: wrap; height: auto; gap: 6px; padding: 8px 10px; }
+  .scan { flex: 1 1 100%; margin: 0; order: -1; }
+  .top .chip.plain, .top .chip.net { display: none; }
+  .top .chip { padding: 4px 10px; }
+  .userbtn { min-height: 34px; padding: 2px 12px; }
+  .side nav { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  .side nav::-webkit-scrollbar { display: none; }
+  .side nav button { flex: none; min-height: 38px; }
+  .side { padding: 8px 10px; }
+  main { padding: 16px 12px 96px; }
+  .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .prod { padding: 8px 8px 12px; border-radius: 20px; gap: 8px; }
+  .prod .price { font-size: 15px; }
+  .prod .pill { display: none; }
+  .cats button { min-width: 100px; padding: 10px 12px; }
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .cols { grid-template-columns: 1fr; }
+  .banner { font-size: 13px; }
+}

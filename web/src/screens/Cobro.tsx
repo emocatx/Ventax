@@ -9,6 +9,35 @@ import { Modal } from '../components/Modal';
 import { Title } from './Placeholder';
 import { ReturnDialog } from './ReturnDialog';
 import { useUi } from '../ui';
+import { Drawer } from 'vaul';
+
+// true en pantallas anchas (PC); en celular/tablet el ticket va en una hoja inferior
+function useWide(q = '(min-width: 1001px)') {
+  const [wide, setWide] = useState(() => matchMedia(q).matches);
+  useEffect(() => { const m = matchMedia(q), f = () => setWide(m.matches); m.addEventListener('change', f); return () => m.removeEventListener('change', f); }, [q]);
+  return wide;
+}
+
+function TicketShell({ wide, open, setOpen, count, total, children }: { wide: boolean; open: boolean; setOpen: (v: boolean) => void; count: number; total: number; children: React.ReactNode }) {
+  if (wide) return <aside className="ticket-panel">{children}</aside>;
+  return (
+    <Drawer.Root open={open} onOpenChange={setOpen}>
+      <Drawer.Trigger asChild>
+        <motion.button className="cartbar" key={count} initial={{ scale: 0.96 }} animate={{ scale: 1 }}>
+          <span className="cb-count">{qtyFmt(count)}</span><span>Ver ticket</span><b><Money value={total} /></b>
+        </motion.button>
+      </Drawer.Trigger>
+      <Drawer.Portal>
+        <Drawer.Overlay className="sheet-ov" />
+        <Drawer.Content className="sheet" aria-describedby={undefined}>
+          <div className="sheet-grip" />
+          <Drawer.Title className="sr-only">Ticket</Drawer.Title>
+          <div className="ticket-panel">{children}</div>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
+  );
+}
 
 const err = (e: unknown) => (e instanceof ApiError && e.silent ? null : e instanceof Error ? e.message : 'Error');
 
@@ -31,6 +60,8 @@ function Thumb({ p }: { p: Product }) {
 
 export function Cobro() {
   const shift = useStore((s) => s.shift);
+  const wide = useWide();
+  const [sheet, setSheet] = useState(false);
   const cart = useStore((s) => s.cart);
   const discount = useStore((s) => s.discount);
   const st = useStore.getState;
@@ -84,6 +115,7 @@ export function Cobro() {
   // ¿cambió algún precio mientras el producto estaba en el ticket?
   const startPay = async (m: Method) => {
     if (!cart.length) return st().showToast('El ticket está vacío', true);
+    setSheet(false);
     try {
       const fresh = new Map((await api<Product[]>('/products?all=1')).map((p) => [p.id, p]));
       const notes: string[] = [];
@@ -138,7 +170,7 @@ export function Cobro() {
           </div>
         </div>
 
-        <aside className="ticket-panel">
+        <TicketShell wide={wide} open={sheet} setOpen={setSheet} count={cart.reduce((s, l) => s + (l.product.unit === 'pieza' ? l.qty : 1), 0)} total={t.total}>
           <div className="tp-head"><div><b>TICKET #{nextNo}</b><small>Cajero: {shift.cashier}</small></div><button className="ghost" onClick={() => st().clearCart()}>Vaciar</button></div>
           <div className="cart">
             <AnimatePresence initial={false}>
@@ -171,10 +203,10 @@ export function Cobro() {
           </div>
           <motion.button className="primary big" id="payBtn" whileTap={{ scale: 0.98 }} onClick={() => void startPay('efectivo')}>{cart.length ? `Cobrar ${money(t.total)}` : 'Cobrar (F9)'}</motion.button>
           <div className="row">
-            <button className="ghost grow" onClick={() => (discount ? st().setDiscount(null) : cart.length ? setDiscOpen(true) : st().showToast('Agrega productos primero', true))}>{discount ? 'Quitar descuento' : 'Descuento'}</button>
-            <button className="ghost grow" onClick={() => setReturning(true)}>Devolución</button>
+            <button className="ghost grow" onClick={() => (discount ? st().setDiscount(null) : cart.length ? (setSheet(false), setDiscOpen(true)) : st().showToast('Agrega productos primero', true))}>{discount ? 'Quitar descuento' : 'Descuento'}</button>
+            <button className="ghost grow" onClick={() => { setSheet(false); setReturning(true); }}>Devolución</button>
           </div>
-        </aside>
+        </TicketShell>
       </div>
 
       <KgDialog product={kg} onClose={() => setKg(null)} />
